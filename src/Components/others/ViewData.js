@@ -1,17 +1,27 @@
-import React, { useContext,useEffect, useState } from 'react'
-import Bottom from '../bottom/Bottom'
-import Footer from '../footer/Footer'
-import { useParams } from 'react-router-dom'
-import { CategoryContext } from '../context/Context'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import Bottom from "../bottom/Bottom";
+import Footer from "../footer/Footer";
 
 const ViewData = () => {
+
+  const [tolly, setTolly] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("https://vijayasri-react-backendapp.herokuapp.com/api/blog")
+      .then((res) => {
+        setTolly(res.data);
+      });
+  }, []);
     const {id} =useParams();
-    const[category]=useContext(CategoryContext);
+    
     const[dataa,setDataa] =useState({ img:"",det:"",date:"",description:"",category:""})
 
 
     useEffect(() => {
-        category.forEach((view)=>{
+        tolly.forEach((view)=>{
             if(view.id===id){
                 console.log("Matched Param");
                 setDataa({

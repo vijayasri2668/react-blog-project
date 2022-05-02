@@ -1,18 +1,27 @@
-import * as React from "react";
-import { useContext } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import Bottom from "../bottom/Bottom";
-import { CategoryContext } from "../context/Context";
+// import Footer from "../footer/Footer";
 
 const Tollywood = () => {
-  const [category] = useContext(CategoryContext);
+
+  const [tolly, setTolly] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("https://vijayasri-react-backendapp.herokuapp.com/api/blog")
+      .then((res) => {
+        setTolly(res.data);
+      });
+  }, []);
 
 
   return (
     <div>
       <h1 className="tollyh">TollyWood</h1><hr className="thhr"/>
-      {category.filter((render)=>render.id<5).map((wood) => (
-        <div key={category.id} className="tolly">
+      {tolly.filter((render)=>render.id<5).map((wood) => (
+        <div key={tolly.id} className="tolly">
           <Link to={`/tollywood/${wood.id}`}className="tolly">
             <div className="tollyi"><img src={wood.img} alt="" /></div>
             <h3 className="tollyt">{wood.det}</h3>
